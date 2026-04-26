@@ -110,7 +110,6 @@ return {
     vim.fn.sign_define('DapBreakpointCondition', { text = '⊜', texthl = 'DapBreak', numhl = 'DapBreak' })
     vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStop', numhl = 'DapStop' })
 
-    -- Yellow highlight for current debug line
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#4a3f00', bold = true })
     vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStop', linehl = 'DapStoppedLine', numhl = 'DapStop' })
 

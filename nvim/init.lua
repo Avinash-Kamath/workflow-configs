@@ -103,6 +103,10 @@ if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = true
   vim.o.showtabline = 2
   vim.g.neovide_scroll_animation_length = 0.1
+  vim.g.neovide_padding_top = 0
+  vim.g.neovide_padding_bottom = 0
+  vim.g.neovide_padding_right = 0
+  vim.g.neovide_padding_left = 0
 end
 
 -- [[ Setting options ]]
@@ -180,6 +184,38 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+-- Auto-save on leaving insert mode or after changes in normal mode
+vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
+  callback = function()
+    if vim.bo.modified and vim.bo.buftype == '' and vim.fn.expand '%' ~= '' then
+      vim.cmd 'silent! write'
+    end
+  end,
+})
+
+-- Auto-reload files changed outside of Neovim (e.g. by Claude Code)
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  callback = function()
+    if vim.fn.mode() ~= 'c' then
+      vim.cmd 'checktime'
+    end
+  end,
+})
+
+-- Make floating windows slightly transparent
+vim.api.nvim_create_autocmd({ 'WinNew', 'WinEnter' }, {
+  callback = vim.schedule_wrap(function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_config(win).relative ~= '' then
+        if vim.api.nvim_get_option_value('winblend', { win = win }) == 0 then
+          vim.api.nvim_set_option_value('winblend', 10, { win = win })
+        end
+      end
+    end
+  end),
+})
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -1019,7 +1055,7 @@ require('lazy').setup({
   require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommended keymaps
 

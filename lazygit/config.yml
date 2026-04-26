@@ -13,7 +13,7 @@ gui:
       - "#7dcfff" # tokyonight cyan
       - bold
     optionsTextColor:
-      - "#7aa2f7"
+      - "#c0caf5"
     selectedLineBgColor:
       - "#24283b" # tokyonight selection bg
     cherryPickedCommitBgColor:
