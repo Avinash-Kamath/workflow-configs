@@ -1,0 +1,33 @@
+gui:
+  nerdFontsVersion: "3"
+  showFileTree: true
+  showRandomTip: false
+  showCommandLog: false
+  theme:
+    activeBorderColor:
+      - "#7aa2f7" # tokyonight blue
+      - bold
+    inactiveBorderColor:
+      - "#3b4261"
+    searchingActiveBorderColor:
+      - "#7dcfff" # tokyonight cyan
+      - bold
+    optionsTextColor:
+      - "#7aa2f7"
+    selectedLineBgColor:
+      - "#24283b" # tokyonight selection bg
+    cherryPickedCommitBgColor:
+      - "#364A82"
+    cherryPickedCommitFgColor:
+      - "#7aa2f7"
+    unstagedChangesColor:
+      - "#f7768e" # tokyonight red
+    defaultFgColor:
+      - "#c0caf5" # tokyonight foreground
+git:
+  log:
+    showGraph: always
+    order: topo-order
+  pagers:
+    - colorArg: always
+      pager: delta

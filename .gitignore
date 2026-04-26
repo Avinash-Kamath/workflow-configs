@@ -1,0 +1,9 @@
+.DS_Store
+
+# Neovim runtime artifacts
+nvim/spell/
+nvim/tags
+nvim/.luarc.json
+
+# Lazygit runtime state
+lazygit/state.yml

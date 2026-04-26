@@ -1,0 +1,37 @@
+[user]
+	name = avinash
+	email = avinash.kamath@scalekit.com
+[safe]
+	directory = /Users/avinashkamath/IdeaProjects/scalekit
+
+[core]
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true          # n/N to jump between diff sections
+	side-by-side = true
+	line-numbers = true
+	syntax-theme = base16
+	paging = never
+
+	# word-level highlights within a changed line
+	word-diff-regex = \\S+
+
+	# file & hunk header styling
+	file-style = "#7aa2f7" bold       # tokyonight blue
+	file-decoration-style = "#3b4261" ul
+	hunk-header-style = "#bb9af7" bold # tokyonight purple
+	hunk-header-decoration-style = "#3b4261"
+
+	# changed line colours
+	plus-style = syntax "#1a2e1a"
+	minus-style = syntax "#2e1a1a"
+	plus-emph-style = syntax "#2a4a2a"
+	minus-emph-style = syntax "#4a2a2a"
+
+	line-numbers-minus-style = "#f7768e"  # tokyonight red
+	line-numbers-plus-style  = "#9ece6a"  # tokyonight green
+	line-numbers-zero-style  = "#3b4261"
