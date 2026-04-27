@@ -32,4 +32,4 @@ git:
     order: topo-order
   pagers:
     - colorArg: always
-      pager: delta
+      pager: delta --side-by-side --paging=never
