@@ -100,6 +100,7 @@ vim.g.loaded_netrwPlugin = 1
 -- Neovide settings
 if vim.g.neovide then
   vim.o.guifont = 'JetBrainsMono Nerd Font:h15'
+  vim.opt.linespace = 6
   vim.g.neovide_hide_mouse_when_typing = true
   vim.o.showtabline = 2
   vim.g.neovide_scroll_animation_length = 0.1
@@ -107,7 +108,6 @@ if vim.g.neovide then
   vim.g.neovide_padding_bottom = 0
   vim.g.neovide_padding_right = 0
   vim.g.neovide_padding_left = 0
-  vim.opt.linespace = 8
 end
 
 -- [[ Setting options ]]
@@ -117,6 +117,7 @@ end
 
 -- Make line numbers default
 vim.o.number = true
+vim.o.wrap = false
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 -- vim.o.relativenumber = true
@@ -852,6 +853,7 @@ require('lazy').setup({
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'super-tab',
+        ['<S-Tab>'] = {},
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -970,6 +972,19 @@ require('lazy').setup({
       MiniStatusline.active = function()
         local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
 
+        -- Subtle mode-tinted background for the statusline body
+        local mode_bg = {
+          MiniStatuslineModeNormal  = '#1e2233',
+          MiniStatuslineModeInsert  = '#192419',
+          MiniStatuslineModeVisual  = '#211a2e',
+          MiniStatuslineModeReplace = '#251818',
+          MiniStatuslineModeCommand = '#252012',
+          MiniStatuslineModeOther   = '#1e2233',
+        }
+        local bg = mode_bg[mode_hl] or '#1e2233'
+        vim.api.nvim_set_hl(0, 'MiniStatuslineDevinfo',  { bg = bg, fg = '#737aa2' })
+        vim.api.nvim_set_hl(0, 'MiniStatuslineFileinfo', { bg = bg, fg = '#737aa2' })
+
         local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
         local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
         local diagnostics = ''
@@ -980,10 +995,10 @@ require('lazy').setup({
         local location = statusline.section_location({ trunc_width = 75 })
 
         return statusline.combine_groups({
-          { hl = mode_hl, strings = { mode } },
-          { hl = 'MiniStatuslineDevinfo', strings = { diagnostics } },
-          '%=',
-          { hl = 'MiniStatuslineDevinfo', strings = { git } },
+          { hl = mode_hl,                  strings = { mode } },
+          { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics } },
+          '%#MiniStatuslineDevinfo#%=',
+          { hl = 'MiniStatuslineDevinfo',  strings = { git } },
           { hl = 'MiniStatuslineFileinfo', strings = { location } },
         })
       end

@@ -15,7 +15,7 @@
 	side-by-side = true
 	line-numbers = true
 	syntax-theme = base16
-	paging = never
+	paging = auto
 
 	# word-level highlights within a changed line
 	word-diff-regex = \\S+
