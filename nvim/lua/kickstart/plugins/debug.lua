@@ -108,7 +108,9 @@ return {
     vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
     vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreak', numhl = 'DapBreak' })
     vim.fn.sign_define('DapBreakpointCondition', { text = '⊜', texthl = 'DapBreak', numhl = 'DapBreak' })
+    vim.fn.sign_define('DapBreakpointDisabled', { text = '○', texthl = 'DapBreakDisabled', numhl = 'DapBreakDisabled' })
     vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStop', numhl = 'DapStop' })
+    vim.api.nvim_set_hl(0, 'DapBreakDisabled', { fg = '#555555' })
 
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#4a3f00', bold = true })
     vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStop', linehl = 'DapStoppedLine', numhl = 'DapStop' })

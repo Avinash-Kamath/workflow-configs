@@ -99,7 +99,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Neovide settings
 if vim.g.neovide then
-  vim.o.guifont = 'JetBrainsMono Nerd Font:h14'
+  vim.o.guifont = 'JetBrainsMono Nerd Font:h15'
   vim.g.neovide_hide_mouse_when_typing = true
   vim.o.showtabline = 2
   vim.g.neovide_scroll_animation_length = 0.1
@@ -107,6 +107,7 @@ if vim.g.neovide then
   vim.g.neovide_padding_bottom = 0
   vim.g.neovide_padding_right = 0
   vim.g.neovide_padding_left = 0
+  vim.opt.linespace = 8
 end
 
 -- [[ Setting options ]]
@@ -235,7 +236,7 @@ vim.keymap.set('n', '<C-i>', '<C-o>', { desc = 'Jump backward in jumplist' })
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
-  update_in_insert = false,
+  update_in_insert = true,
   severity_sort = true,
   float = { border = 'rounded', source = 'if_many' },
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
@@ -253,7 +254,13 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- Tab navigation
 vim.keymap.set('n', '<S-l>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next tab' })
 vim.keymap.set('n', '<S-h>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Prev tab' })
-vim.keymap.set('n', '<leader>x', '<cmd>bdelete<CR>', { desc = 'Close tab' })
+vim.keymap.set('n', '<leader>x', function()
+  local bufs = vim.fn.getbufinfo { buflisted = 1 }
+  if #bufs <= 1 then return end
+  local cur = vim.api.nvim_get_current_buf()
+  vim.cmd 'bprevious'
+  vim.cmd('bdelete ' .. cur)
+end, { desc = 'Close buffer' })
 
 -- Session management
 vim.keymap.set('n', '<leader>qs', '<cmd>SessionSave<CR>', { desc = 'Save session' })

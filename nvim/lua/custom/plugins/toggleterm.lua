@@ -38,6 +38,7 @@ return {
       width = math.floor(vim.o.columns * 0.85),
       height = math.floor(vim.o.lines * 0.8),
     },
+    shell = 'fish',
     shade_terminals = false,
     persist_mode = true,   -- remember insert/normal mode per terminal
     start_in_insert = true,

@@ -4,29 +4,26 @@ return {
     cmd = 'Copilot',
     event = 'InsertEnter',
     opts = {
-      suggestion = { enabled = false }, -- handled by blink.cmp
-      panel = { enabled = false },      -- handled by blink.cmp
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        keymap = {
+          accept = '<M-l>',
+          accept_word = '<M-w>',
+          accept_line = '<M-e>',
+          next = '<M-]>',
+          prev = '<M-[>',
+          dismiss = '<C-]>',
+        },
+      },
+      panel = { enabled = false },
     },
   },
   {
-    'giuxtaposition/blink-cmp-copilot',
-    dependencies = { 'zbirenbaum/copilot.lua' },
-    specs = {
-      {
-        'saghen/blink.cmp',
-        opts = {
-          sources = {
-            default = { 'lsp', 'path', 'snippets', 'copilot' },
-            providers = {
-              copilot = {
-                name = 'copilot',
-                module = 'blink-cmp-copilot',
-                score_offset = 100, -- show copilot suggestions at the top
-                async = true,
-              },
-            },
-          },
-        },
+    'saghen/blink.cmp',
+    opts = {
+      sources = {
+        default = { 'lsp', 'path', 'snippets' }, -- copilot removed from menu
       },
     },
   },
