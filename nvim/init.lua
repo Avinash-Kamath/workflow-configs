@@ -267,6 +267,12 @@ end, { desc = 'Close buffer' })
 vim.keymap.set('n', '<leader>qs', '<cmd>SessionSave<CR>', { desc = 'Save session' })
 vim.keymap.set('n', '<leader>ql', '<cmd>SessionRestore<CR>', { desc = 'Restore session' })
 
+-- Insert mode navigation
+vim.keymap.set('i', '<C-h>', '<Left>',  { desc = 'Move left in insert mode' })
+vim.keymap.set('i', '<C-j>', '<Down>', { desc = 'Move down in insert mode' })
+vim.keymap.set('i', '<C-k>', '<Up>',    { desc = 'Move up in insert mode' })
+vim.keymap.set('i', '<C-l>', '<Right>', { desc = 'Move right in insert mode' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -688,6 +694,7 @@ require('lazy').setup({
         -- clangd = {},
         gopls = {},
         pyright = {},
+        jsonls = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -745,6 +752,7 @@ require('lazy').setup({
         -- You can add other tools here that you want Mason to install
       })
 
+      vim.list_extend(ensure_installed, { 'prettier' })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       for name, server in pairs(servers) do
@@ -775,6 +783,7 @@ require('lazy').setup({
         local enabled_filetypes = {
           python = true,
           go = true,
+          json = true,
         }
         if enabled_filetypes[vim.bo[bufnr].filetype] then
           return { timeout_ms = 500 }
@@ -794,6 +803,7 @@ require('lazy').setup({
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
         go = { 'goimports', 'gofmt' },
+        json = { 'prettier' },
       },
     },
   },
@@ -853,8 +863,9 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = 'super-tab',
+        preset = 'enter',
         ['<S-Tab>'] = {},
+        ['<C-k>'] = {},
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
