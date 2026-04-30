@@ -20,9 +20,10 @@ return {
     require('satellite').setup(opts)
 
     -- Bold, high-contrast colours for each severity
-    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticError',   { fg = '#ff5555', bold = true })
-    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticWarn',    { fg = '#ffb86c', bold = true })
-    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticInfo',    { fg = '#8be9fd', bold = true })
-    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticHint',    { fg = '#50fa7b', bold = true })
+    -- warm-burnout palette colours
+    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticError',   { fg = '#f06b73', bold = true })
+    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticWarn',    { fg = '#ffb454', bold = true })
+    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticInfo',    { fg = '#59c2ff', bold = true })
+    vim.api.nvim_set_hl(0, 'SatelliteDiagnosticHint',    { fg = '#95e6cb', bold = true })
   end,
 }

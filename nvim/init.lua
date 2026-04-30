@@ -84,6 +84,12 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- ============================================================
+-- THEME SELECTOR: change this to switch themes
+-- Options: "warm-burnout" | "tokyonight"
+vim.g.theme = 'warm-burnout'
+-- ============================================================
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -904,31 +910,25 @@ require('lazy').setup({
     },
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
-
-      -- Make ghost text lighter so it's visible on dark background
+  {
+    'felipefdl/warm-burnout',
+    priority = 1000,
+    enabled = vim.g.theme == 'warm-burnout',
+    config = function(plugin)
+      vim.opt.rtp:append(plugin.dir .. '/nvim')
+      vim.cmd.colorscheme 'warm-burnout-dark'
       vim.api.nvim_set_hl(0, 'BlinkCmpGhostText', { fg = '#9ca3af', italic = true })
+    end,
+  },
 
-      -- Dim inactive statuslines so active window is obvious
-      vim.api.nvim_set_hl(0, 'MiniStatuslineInactive', { bg = '#1a1b26', fg = '#3b4261' })
+  {
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    enabled = vim.g.theme == 'tokyonight',
+    config = function()
+      require('tokyonight').setup { styles = { comments = { italic = false } } }
+      vim.cmd.colorscheme 'tokyonight-night'
+      vim.api.nvim_set_hl(0, 'BlinkCmpGhostText', { fg = '#9ca3af', italic = true })
     end,
   },
 
@@ -985,17 +985,30 @@ require('lazy').setup({
         local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
 
         -- Subtle mode-tinted background for the statusline body
-        local mode_bg = {
-          MiniStatuslineModeNormal  = '#1e2233',
-          MiniStatuslineModeInsert  = '#192419',
-          MiniStatuslineModeVisual  = '#211a2e',
-          MiniStatuslineModeReplace = '#251818',
-          MiniStatuslineModeCommand = '#252012',
-          MiniStatuslineModeOther   = '#1e2233',
+        local palettes = {
+          ['warm-burnout'] = {
+            fg = '#bfbdb6',
+            MiniStatuslineModeNormal  = '#23211b',
+            MiniStatuslineModeInsert  = '#1e2318',
+            MiniStatuslineModeVisual  = '#25201a',
+            MiniStatuslineModeReplace = '#271a1a',
+            MiniStatuslineModeCommand = '#252012',
+            MiniStatuslineModeOther   = '#23211b',
+          },
+          ['tokyonight'] = {
+            fg = '#737aa2',
+            MiniStatuslineModeNormal  = '#1e2233',
+            MiniStatuslineModeInsert  = '#192419',
+            MiniStatuslineModeVisual  = '#211a2e',
+            MiniStatuslineModeReplace = '#251818',
+            MiniStatuslineModeCommand = '#252012',
+            MiniStatuslineModeOther   = '#1e2233',
+          },
         }
-        local bg = mode_bg[mode_hl] or '#1e2233'
-        vim.api.nvim_set_hl(0, 'MiniStatuslineDevinfo',  { bg = bg, fg = '#737aa2' })
-        vim.api.nvim_set_hl(0, 'MiniStatuslineFileinfo', { bg = bg, fg = '#737aa2' })
+        local palette = palettes[vim.g.theme] or palettes['warm-burnout']
+        local bg = palette[mode_hl] or palette.MiniStatuslineModeNormal
+        vim.api.nvim_set_hl(0, 'MiniStatuslineDevinfo',  { bg = bg, fg = palette.fg })
+        vim.api.nvim_set_hl(0, 'MiniStatuslineFileinfo', { bg = bg, fg = palette.fg })
 
         local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
         local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })

@@ -61,7 +61,7 @@ return {
     vim.fn.sign_define('DapBreakpointDisabled', { text = '○', texthl = 'DapBreakDisabled', numhl = 'DapBreakDisabled' })
     vim.api.nvim_set_hl(0, 'DapBreakDisabled', { fg = '#555555' })
 
-    vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#4a3f00', bold = true })
+    vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#2e2a1a', bold = true })
     vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStop', linehl = 'DapStoppedLine', numhl = 'DapStop' })
 
     -- Breakpoints are loaded at startup in dap-breakpoints.lua

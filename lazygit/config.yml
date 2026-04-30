@@ -7,25 +7,25 @@ gui:
   showCommandLog: false
   theme:
     activeBorderColor:
-      - "#7aa2f7" # tokyonight blue
+      - "#f5c56e"
       - bold
     inactiveBorderColor:
-      - "#3b4261"
+      - "#686868"
     searchingActiveBorderColor:
-      - "#7dcfff" # tokyonight cyan
+      - "#59c2ff"
       - bold
     optionsTextColor:
-      - "#c0caf5"
+      - "#bfbdb6"
     selectedLineBgColor:
-      - "#24283b" # tokyonight selection bg
+      - "#23211b"
     cherryPickedCommitBgColor:
-      - "#364A82"
+      - "#2e2a1a"
     cherryPickedCommitFgColor:
-      - "#7aa2f7"
+      - "#f5c56e"
     unstagedChangesColor:
-      - "#f7768e" # tokyonight red
+      - "#f06b73"
     defaultFgColor:
-      - "#c0caf5" # tokyonight foreground
+      - "#bfbdb6"
 git:
   log:
     showGraph: always
