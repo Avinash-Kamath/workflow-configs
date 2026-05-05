@@ -16,5 +16,19 @@ return {
         },
       },
     },
+    highlights = {
+      buffer_selected = {
+        fg = '#f5c56e',
+        bold = true,
+        italic = false,
+      },
+      indicator_selected = {
+        fg = '#f5c56e',
+      },
+      tab_selected = {
+        fg = '#f5c56e',
+        bold = true,
+      },
+    },
   },
 }
