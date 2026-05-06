@@ -9,7 +9,7 @@ return {
     vim.opt.foldenable = true
     vim.opt.foldlevel = 99
     vim.opt.foldlevelstart = 99
-    vim.opt.foldcolumn = '1' -- shows a fold indicator column on the left
+    vim.opt.foldcolumn = '0'
   end,
   opts = {
     -- use LSP first, fall back to treesitter, then indent

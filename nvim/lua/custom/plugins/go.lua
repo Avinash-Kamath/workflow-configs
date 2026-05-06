@@ -9,6 +9,7 @@ return {
     require('go').setup({
       dap_debug = false,
       dap_debug_vt = false,
+      lsp_codelens = false,
     })
   end,
   ft = { 'go', 'gomod' },

@@ -273,6 +273,12 @@ end, { desc = 'Close buffer' })
 vim.keymap.set('n', '<leader>qs', '<cmd>SessionSave<CR>', { desc = 'Save session' })
 vim.keymap.set('n', '<leader>ql', '<cmd>SessionRestore<CR>', { desc = 'Restore session' })
 
+-- Close all buffers and reopen neo-tree
+vim.keymap.set('n', '<leader>bc', function()
+  vim.cmd '%bd'
+  vim.cmd 'Neotree show'
+end, { desc = 'Close all buffers' })
+
 -- Insert mode navigation
 vim.keymap.set('i', '<C-h>', '<Left>',  { desc = 'Move left in insert mode' })
 vim.keymap.set('i', '<C-j>', '<Down>', { desc = 'Move down in insert mode' })
@@ -701,6 +707,7 @@ require('lazy').setup({
         gopls = {},
         pyright = {},
         jsonls = {},
+        buf_ls = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
