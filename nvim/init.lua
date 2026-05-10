@@ -105,7 +105,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Neovide settings
 if vim.g.neovide then
-  vim.o.guifont = 'JetBrainsMono Nerd Font:h15'
+  vim.o.guifont = 'JetBrainsMono Nerd Font:h16'
   vim.opt.linespace = 6
   vim.g.neovide_hide_mouse_when_typing = true
   vim.o.showtabline = 2
@@ -278,6 +278,16 @@ vim.keymap.set('n', '<leader>bc', function()
   vim.cmd '%bd'
   vim.cmd 'Neotree show'
 end, { desc = 'Close all buffers' })
+
+-- Close all buffers except current
+vim.keymap.set('n', '<leader>bo', function()
+  local cur = vim.api.nvim_get_current_buf()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= cur and vim.bo[buf].buflisted then
+      vim.cmd('bd ' .. buf)
+    end
+  end
+end, { desc = 'Close other buffers' })
 
 -- Insert mode navigation
 vim.keymap.set('i', '<C-h>', '<Left>',  { desc = 'Move left in insert mode' })
@@ -529,8 +539,13 @@ require('lazy').setup({
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
-          vim.keymap.set('n', 'gri', builtin.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
-          vim.keymap.set('n', 'gi', builtin.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
+          local function implementations_no_mock()
+            builtin.lsp_implementations {
+              file_ignore_patterns = { '.*_mock.*', '.*mock_.*', '.*/mock/.*' },
+            }
+          end
+          vim.keymap.set('n', 'gri', implementations_no_mock, { buffer = buf, desc = '[G]oto [I]mplementation' })
+          vim.keymap.set('n', 'gi', implementations_no_mock, { buffer = buf, desc = '[G]oto [I]mplementation' })
 
           -- Jump to the definition of the word under your cursor.
           -- This is where a variable was first declared, or where a function is defined, etc.
@@ -876,8 +891,12 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = 'enter',
-        ['<S-Tab>'] = {},
+        preset = 'none',
+        ['<Tab>'] = { 'select_and_accept', 'fallback' },
+        ['<C-n>'] = { 'select_next', 'fallback' },
+        ['<C-p>'] = { 'select_prev', 'fallback' },
+        ['<C-space>'] = { 'show', 'fallback' },
+        ['<C-e>'] = { 'hide', 'fallback' },
         ['<C-k>'] = {},
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
