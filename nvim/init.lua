@@ -895,6 +895,8 @@ require('lazy').setup({
         ['<Tab>'] = { 'select_and_accept', 'fallback' },
         ['<C-n>'] = { 'select_next', 'fallback' },
         ['<C-p>'] = { 'select_prev', 'fallback' },
+        ['<Down>'] = { 'select_next', 'fallback' },
+        ['<Up>'] = { 'select_prev', 'fallback' },
         ['<C-space>'] = { 'show', 'fallback' },
         ['<C-e>'] = { 'hide', 'fallback' },
         ['<C-k>'] = {},
@@ -1044,12 +1046,34 @@ require('lazy').setup({
 
         local git = statusline.section_git({ trunc_width = 40 })
         local location = statusline.section_location({ trunc_width = 75 })
+        local filename = vim.fn.expand('%:t')
+        local filetype = vim.bo.filetype
+
+        -- LSP client name
+        local lsp = ''
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        if #clients > 0 then
+          lsp = ' ' .. clients[1].name
+        end
+
+        -- Git diff stats from gitsigns
+        local diff = ''
+        local gs = vim.b.gitsigns_status_dict
+        if gs then
+          if (gs.added or 0) > 0   then diff = diff .. '+' .. gs.added .. ' ' end
+          if (gs.changed or 0) > 0 then diff = diff .. '~' .. gs.changed .. ' ' end
+          if (gs.removed or 0) > 0 then diff = diff .. '-' .. gs.removed end
+        end
+
+        -- Macro recording indicator
+        local macro = vim.fn.reg_recording() ~= '' and 'recording @' .. vim.fn.reg_recording() or ''
 
         return statusline.combine_groups({
-          { hl = mode_hl,                  strings = { mode } },
+          { hl = mode_hl,                  strings = { mode, macro, lsp } },
+          { hl = 'MiniStatuslineDevinfo',  strings = { filename, filetype } },
           { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics } },
           '%#MiniStatuslineDevinfo#%=',
-          { hl = 'MiniStatuslineDevinfo',  strings = { git } },
+          { hl = 'MiniStatuslineDevinfo',  strings = { diff, git } },
           { hl = 'MiniStatuslineFileinfo', strings = { location } },
         })
       end
