@@ -18,6 +18,7 @@ font-thicken = true
 # Window
 window-padding-x = 10
 window-padding-y = 10
+split-divider-color = #f5c56e
 #background-opacity = 0.95
 #macos-titlebar-style = hidden
 #window-theme = dark

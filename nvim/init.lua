@@ -720,7 +720,17 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         gopls = {},
-        pyright = {},
+        pyright = {
+          settings = {
+            pyright = { disableOrganizeImports = true }, -- let ruff handle imports
+            python = {
+              analysis = {
+                typeCheckingMode = 'standard', -- 'off' | 'basic' | 'standard' | 'strict'
+              },
+            },
+          },
+        },
+        ruff = {},
         jsonls = {},
         buf_ls = {},
         -- rust_analyzer = {},
@@ -826,7 +836,7 @@ require('lazy').setup({
       formatters_by_ft = {
         -- rust = { 'rustfmt' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'black' },
+        python = { 'ruff_format' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -1046,7 +1056,7 @@ require('lazy').setup({
 
         local git = statusline.section_git({ trunc_width = 40 })
         local location = statusline.section_location({ trunc_width = 75 })
-        local filename = vim.fn.expand('%:t')
+        local filename = vim.fn.expand('%:~:.')  -- relative path from project root
         local filetype = vim.bo.filetype
 
         -- LSP client name
